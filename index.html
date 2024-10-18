@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="main">
+      <form name="f">
+        <input type="text" name="ddd" placeholder="0" id="hold" /><br />
+        <input type="button" value="1" onclick="addNumber(1)" />
+        <input type="button" value="2" onclick="addNumber(2)" />
+        <input type="button" value="3" onclick="addNumber(3)" />
+        <input type="button" value="4" onclick="addNumber(4)" />
+        <input type="button" value="5" onclick="addNumber(5)" />
+        <input type="button" value="6" onclick="addNumber(6)" />
+        <input type="button" value="7" onclick="addNumber(7)" />
+        <input type="button" value="8" onclick="addNumber(8)" />
+        <input type="button" value="9" onclick="addNumber(9)" />
+        <input type="button" value="0" onclick="addNumber(0)" />
+        <input type="button" value="+" onclick="add()" />
+        <input type="button" value="-" onclick="sub()" />
+        <input type="button" value="x" onclick="mul()" />
+        <input type="button" value="/" onclick="di()" />
+        <input type="button" value="c" onclick="f.ddd.value=''" />
+        <input type="button" value="=" onclick="calculate()" />
+      </form>
+    </div>
+    <script>
+      let resultMode = false;
+
+      function add() {
+        replaceOperator("+");
+        resultMode = false;
+      }
+
+      function sub() {
+        replaceOperator("-");
+        resultMode = false;
+      }
+
+      function mul() {
+        replaceOperator("*");
+        resultMode = false;
+      }
+
+      function di() {
+        replaceOperator("/");
+        resultMode = false;
+      }
+
+      function replaceOperator(operator) {
+        let currentValue = f.ddd.value;
+        currentValue = currentValue.replace(/[+*/-]$/, "");
+        f.ddd.value = currentValue + operator;
+      }
+
+      function addNumber(num) {
+        if (resultMode) {
+          f.ddd.value = num;
+          resultMode = false;
+        } else {
+          f.ddd.value += num;
+        }
+      }
+
+      function calculate() {
+        try {
+          f.ddd.value = eval(f.ddd.value);
+          resultMode = true;
+        } catch (error) {
+          if (
+            error instanceof Error &&
+            error.message.includes("division by zero")
+          ) {
+            f.ddd.value = "Error: Division by zero";
+          } else {
+            f.ddd.value = "Error";
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
